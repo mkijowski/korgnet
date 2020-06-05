@@ -1,14 +1,17 @@
 # bot.py
 import os
-
+import random
 import discord
+
 from dotenv import load_dotenv
+from discord.ext import commands
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client()
+client = commands.Bot(command_prefix='!')
 
 @client.event
 async def on_ready():
@@ -21,8 +24,8 @@ async def on_ready():
         f'{guild.name}(id: {guild.id})'
     )
 
-    members = '\n - '.join([member.name for member in guild.members])
-    print(f'Guild Members:\n - {members}')
+    #members = '\n - '.join([member.name for member in guild.members])
+    #print(f'Guild Members:\n - {members}')
 
 @client.event
 async def on_member_join(member):
@@ -34,6 +37,45 @@ async def on_member_join(member):
     )
 
 
+@client.event
+async def on_error(event, *args, **kwargs):
+    with open('err.log', 'a') as f:
+        if event == 'on_message':
+            f.write(f'Unhandled message: {args[0]}\n')
+        else:
+            raise
+
+
+@client.command(name='99', help='Responds with a random quote from Brooklyn 99')
+async def nine_nine(ctx):
+    brooklyn_99_quotes = [
+        'I\'m the human form of the 💯 emoji.',
+        'Bingpot!',
+        'If I die, turn my tweets into a book.',
+        'Great, I’d like your $8-est bottle of wine, please.',
+        'Are those gummy bears wrapped in a fruit roll-up?',
+        'When it comes to shooting patterns, I like to go PB&J. Penis, Brain, Jaw.',
+        (
+            'Cool. Cool cool cool cool cool cool cool, '
+            'no doubt no doubt no doubt no doubt.'
+        ),
+    ]
+    
+    response = random.choice(brooklyn_99_quotes)
+    await ctx.send(response)
+
+@client.command(name='whoisit', help='Release the hound')
+async def bork(ctx):
+    griff_pics = [
+            'griff1.jpg', 
+            'griff2.jpg',
+            'griff3.jpg',
+            'griff4.jpg',
+            'griff5.jpg',
+            'griff6.jpg',
+            ]
+    picture = './griff/' + random.choice(griff_pics)
+    await ctx.send(file=discord.File(picture))
+    await ctx.send('Bark! Bork!')
 
 client.run(TOKEN)
-
