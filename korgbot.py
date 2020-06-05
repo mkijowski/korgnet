@@ -51,10 +51,7 @@ async def nine_nine(ctx):
     brooklyn_99_quotes = [
         'I\'m the human form of the 💯 emoji.',
         'Bingpot!',
-        'If I die, turn my tweets into a book.',
-        'Great, I’d like your $8-est bottle of wine, please.',
         'Are those gummy bears wrapped in a fruit roll-up?',
-        'When it comes to shooting patterns, I like to go PB&J. Penis, Brain, Jaw.',
         (
             'Cool. Cool cool cool cool cool cool cool, '
             'no doubt no doubt no doubt no doubt.'
@@ -73,6 +70,11 @@ async def bork(ctx):
             'griff4.jpg',
             'griff5.jpg',
             'griff6.jpg',
+            'griff7.jpg',
+            'griff8.jpg',
+            'griff9.jpg',
+            'griff10.jpg',
+            'griff11.jpg',
             ]
     picture = './griff/' + random.choice(griff_pics)
     await ctx.send(file=discord.File(picture))
