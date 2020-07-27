@@ -1,0 +1,27 @@
+bootstrap:docker
+From:ubuntu/18.04
+
+%setup
+
+%environment
+	PATH=/opt/anaconda3/bin/:$PATH
+
+%post 
+	apt update
+	apt install -y \
+		wget \
+		unzip \
+		vim \
+		git \
+		cmake
+
+	wget https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh -O /tmp/anaconda.sh
+	bash /tmp/anaconda.sh -b -p /opt/anaconda3
+
+	export PATH=/opt/anaconda3/bin/:$PATH
+
+	conda update -y -n base conda
+	conda install -y \
+		pip
+
+	pip install -y discord.py
