@@ -104,8 +104,7 @@ async def check(ctx):
     await ctx.send(response)
     
     odin = client.fetch_user(218952310053666816)
-    channel = await odin.create_dm()
-    await channel.send('Someone wielded the gramr!')
+    await odin.send('Someone wielded the gramr!')
 
 def korghalla_status():
     command = 'sudo systemctl status valheimserver.service'
