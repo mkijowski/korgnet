@@ -107,7 +107,7 @@ async def check(ctx):
     response=korghalla_status()
     await ctx.send(response)
     guild = client.get_guild(GUILD)
-    odin = guild.get_member(218952310053666816)
+    odin = client.guilds.get_member(218952310053666816)
     channel = await odin.create_dm()
     await channel.send('Someone wielded the gramr!')
 
