@@ -143,8 +143,6 @@ async def confirmation(ctx, confirm_string='confirm'):
         await ctx.send(f'Confirmation failed, terminating execution')
         return False
 
-async def dmatt(ctx):
-
 
 client.run(TOKEN)
 
