@@ -96,6 +96,7 @@ async def valheim_restart(ctx):
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
     response=korghalla_status()
     await ctx.send(response)
+    guild = client.get_guild(GUILD)
     odin = guild.get_member(218952310053666816)
     channel = await odin.create_dm()
     await channel.send('Someone sounded the gjallarhorn!')
@@ -105,6 +106,7 @@ async def valheim_restart(ctx):
 async def check(ctx):
     response=korghalla_status()
     await ctx.send(response)
+    guild = client.get_guild(GUILD)
     odin = guild.get_member(218952310053666816)
     channel = await odin.create_dm()
     await channel.send('Someone wielded the gramr!')
