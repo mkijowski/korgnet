@@ -116,7 +116,7 @@ def korghalla_status():
 ##### SERVER MANAGEMENT  #####
 ##### ================== #####
 
-"""
+
 @client.command(name='restart', help='Git pulls any new code and restarts discord bot.')
 @commands.has_role('Asgardian')
 async def restart(ctx):
@@ -138,7 +138,7 @@ async def confirmation(ctx, confirm_string='confirm'):
     else:
         await ctx.send(f'Confirmation failed, terminating execution')
         return False
-"""
+
 
 client.run(TOKEN)
 
