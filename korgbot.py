@@ -117,6 +117,19 @@ async def check(ctx):
     response=korghalla_status()
     await ctx.send(response)
 
+##### ================== #####
+##### SERVER MANAGEMENT  #####
+##### ================== #####
+
+@client.command()
+@commands.has_permissions(administrator=True)
+async def restart(ctx):
+    if await confirmation(ctx):
+        await ctx.send('Restarting...')
+        command = 'cd /home/ubuntu/git/korgnet/ && git pull'
+        result = subprocess.run(command.split(' '), capture_output=True, text=True)
+        os.execv(sys.argv[0], sys.argv)
+
 
 client.run(TOKEN)
 
