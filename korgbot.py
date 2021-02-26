@@ -96,18 +96,14 @@ async def valheim_restart(ctx):
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
     response=korghalla_status()
     await ctx.send(response)
-    guild = client.get_guild(GUILD)
-    odin = guild.get_member(218952310053666816)
-    channel = await odin.create_dm()
-    await channel.send('Someone sounded the gjallarhorn!')
 
 @client.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
 @commands.has_role('Korghallan')
 async def check(ctx):
     response=korghalla_status()
     await ctx.send(response)
-    guild = client.get_guild(GUILD)
-    odin = client.guilds.get_member(218952310053666816)
+    
+    odin = client.fetch_user(218952310053666816)
     channel = await odin.create_dm()
     await channel.send('Someone wielded the gramr!')
 
@@ -146,6 +142,8 @@ async def confirmation(ctx, confirm_string='confirm'):
     else:
         await ctx.send(f'Confirmation failed, terminating execution')
         return False
+
+async def dmatt(ctx):
 
 
 client.run(TOKEN)
