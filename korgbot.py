@@ -103,7 +103,7 @@ async def check(ctx):
     response=korghalla_status()
     await ctx.send(response)
     
-    odin = client.get_user(218952310053666816)
+    odin = await client.fetch_user(218952310053666816)
     await odin.send('Someone wielded the gramr!')
 
 
