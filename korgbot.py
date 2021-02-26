@@ -1,8 +1,9 @@
-# bot.py
+#!/opt/anaconda3/bin/python 
 import os
 import subprocess
 import random
 import discord
+import sys
 
 from dotenv import load_dotenv
 from discord.ext import commands
@@ -14,18 +15,6 @@ GUILD = os.getenv('DISCORD_GUILD')
 client = discord.Client()
 client = commands.Bot(command_prefix='!')
 
-def korghalla_status():
-    command = 'sudo systemctl status valheimserver.service'
-    result = subprocess.run(command.split(' '), capture_output=True, text=True)
-    if 'Active' in result.stdout:
-        return 'Valheim server running!'
-    else:
-        return 'Valheim server down @thekilowatt !!!'
-
-async def dm(member, content):
-    channel = await member.create_dm()
-    await channel.send(content)
-
 @client.event
 async def on_ready():
     for guild in client.guilds:
@@ -36,9 +25,6 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-
-    #members = '\n - '.join([member.name for member in guild.members])
-    #print(f'Guild Members:\n - {members}')
 
 ##### ================== #####
 ##### MEMEBER MANAGEMENT #####
@@ -117,12 +103,22 @@ async def check(ctx):
     response=korghalla_status()
     await ctx.send(response)
 
+def korghalla_status():
+    command = 'sudo systemctl status valheimserver.service'
+    result = subprocess.run(command.split(' '), capture_output=True, text=True)
+    if 'Active' in result.stdout:
+        return 'Valheim server running!'
+    else:
+        return 'Valheim server down @thekilowatt !!!'
+
+
 ##### ================== #####
 ##### SERVER MANAGEMENT  #####
 ##### ================== #####
 
-@client.command()
-@commands.has_permissions(administrator=True)
+"""
+@client.command(name='restart', help='Git pulls any new code and restarts discord bot.')
+@commands.has_role('Asgardian')
 async def restart(ctx):
     if await confirmation(ctx):
         await ctx.send('Restarting...')
@@ -130,6 +126,19 @@ async def restart(ctx):
         result = subprocess.run(command.split(' '), capture_output=True, text=True)
         os.execv(sys.argv[0], sys.argv)
 
+async def confirmation(ctx, confirm_string='confirm'):
+    # Ask for confirmation
+    await ctx.send(f'Enter `{confirm_string}` to confirm action')
+
+    # Wait for confirmation
+    msg = await client.wait_for('message', check=lambda message: message.author == ctx.author)
+    if msg.content == confirm_string:
+        await ctx.send(f'Action confirmed, executing')
+        return True
+    else:
+        await ctx.send(f'Confirmation failed, terminating execution')
+        return False
+"""
 
 client.run(TOKEN)
 
