@@ -128,7 +128,7 @@ def korghalla_status():
 
 
 @client.command(name='restart', help='Git pulls any new code and restarts discord bot.')
-@commands.has_role('Asgardian')
+@commands.has_permissions(administrator=True)
 async def restart(ctx):
     if await confirmation(ctx):
         await ctx.send('Restarting...')
