@@ -99,7 +99,7 @@ async def valheim_restart(ctx):
     odin = client.get_user(218952310053666816)
     await odin.send('Someone sounded the Gjallarhorn!')
 
-    command = '/home/ubuntu/korgnarok.sh'
+    command = '/home/ubuntu/git/korgnet/gjallarhorn.sh'
     await ctx.send('The mighty beast Korgnarok has been spotted! Backing up the world of Korghalla. Odin will return the world to order in 2 minutes.')
     await ctx.send('All Korghallan\'s may check the fate of this world with `!gramr`.')
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
