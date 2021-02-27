@@ -8,6 +8,7 @@ import sys
 from dotenv import load_dotenv
 from discord.ext import commands
 
+#get environment info
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
@@ -30,6 +31,7 @@ async def on_ready():
 ##### MEMEBER MANAGEMENT #####
 ##### ================== #####
 
+#welcome
 @client.event
 async def on_member_join(member):
     await member.create_dm()
@@ -39,7 +41,7 @@ async def on_member_join(member):
         f'If I learn a new trick I\'ll brag about it in my instructions channel.\n'
     )
 
-
+#error events
 @client.event
 async def on_error(event, *args, **kwargs):
     with open('err.log', 'a') as f:
@@ -47,7 +49,6 @@ async def on_error(event, *args, **kwargs):
             f.write(f'Unhandled message: {args[0]}\n')
         else:
             raise
-
 
 @client.command(name='99', help='Responds with a random quote from Brooklyn 99')
 async def nine_nine(ctx):
@@ -64,6 +65,7 @@ async def nine_nine(ctx):
     response = random.choice(brooklyn_99_quotes)
     await ctx.send(response)
 
+#summon a Griffindork
 @client.command(name='whoisit', help='Release the hound')
 async def bork(ctx):
     griff_pics = [
@@ -87,6 +89,9 @@ async def bork(ctx):
 ##### VALHEIM MANAGEMENT #####
 ##### ================== #####
 
+#discord frontend for valheim server reboot.  This backs up the world and restarts the service.
+#The korgnarok.sh script has two, one minute hardcoded wait timers to be sure the service stops 
+#and starts.  Checks the status of the server at the end and if down DM's Odin(kijowski) 
 @client.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
 @commands.has_role('Asgardian')
 async def valheim_restart(ctx):
@@ -105,13 +110,18 @@ async def valheim_restart(ctx):
     else:
         await odin.send('Korghalla has risen from the ashes!')
 
+#discord frontend for valheim status checker
 @client.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
 @commands.has_role('Korghallan')
 async def check(ctx):
     response=korghalla_status()
     await ctx.send(response)
+    if 'Korgnarok' in response:
+        await odin.send('Korgnarok has won, your script has failed!')
+    else:
+        await odin.send('Korghalla has risen from the ashes!')
     
-
+#valheim status checker
 def korghalla_status():
     command = 'sudo systemctl status valheimserver.service'
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
@@ -126,6 +136,7 @@ def korghalla_status():
 ##### ================== #####
 
 
+# server restart command, also runs a git pull so that it will update the server before restarting.
 @client.command(name='restart', help='Git pulls any new code and restarts discord bot.')
 @commands.has_permissions(administrator=True)
 async def restart(ctx):
@@ -135,6 +146,7 @@ async def restart(ctx):
         result = subprocess.run(command.split(' '), capture_output=True, text=True)
         os.execv(sys.argv[0], sys.argv)
 
+#confirmation checker, did you really mean to restart?
 async def confirmation(ctx, confirm_string='confirm'):
     # Ask for confirmation
     await ctx.send(f'Enter `{confirm_string}` to confirm action')
