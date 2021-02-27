@@ -112,7 +112,6 @@ async def check(ctx):
     await ctx.send(response)
     
 
-
 def korghalla_status():
     command = 'sudo systemctl status valheimserver.service'
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
