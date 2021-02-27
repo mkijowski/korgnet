@@ -87,15 +87,23 @@ async def bork(ctx):
 ##### VALHEIM MANAGEMENT #####
 ##### ================== #####
 
-@client.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended fear not.')
+@client.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
 @commands.has_role('Asgardian')
 async def valheim_restart(ctx):
+    #alert Matt
+    odin = client.get_user(218952310053666816)
+    await odin.send('Someone sounded the Gjallarhorn!')
+
     command = '/home/ubuntu/korgnarok.sh'
     await ctx.send('The mighty beast Korgnarok has been spotted! Backing up the world of Korghalla. Odin will return the world to order in 2 minutes.')
     await ctx.send('All Korghallan\'s may check the fate of this world with `!gramr`.')
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
     response=korghalla_status()
     await ctx.send(response)
+    if 'Korgnarok' in response:
+        await odin.send('Korgnarok has won, your script has failed!')
+    else:
+        await odin.send('Korghalla has risen from the ashes!')
 
 @client.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
 @commands.has_role('Korghallan')
@@ -103,17 +111,15 @@ async def check(ctx):
     response=korghalla_status()
     await ctx.send(response)
     
-    odin = client.get_user(218952310053666816)
-    await odin.send('Someone wielded the gramr!')
 
 
 def korghalla_status():
     command = 'sudo systemctl status valheimserver.service'
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
     if 'Active' in result.stdout:
-        return 'Valheim server running!'
+        return 'Hrungnir hungers warrior, go out and slay that troll!'
     else:
-        return 'Valheim server down @thekilowatt !!!'
+        return 'Korghalla has fallen, Korgnarok is upon us!'
 
 
 ##### ================== #####
