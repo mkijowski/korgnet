@@ -41,9 +41,12 @@ check_status()
 	if [ $STATE == "stopped" ]; then
 		echo 'The ring of Gramr falls dead in the air, it appears Korghalla has fallen. Sound the mighty `!gjallarhorn` to rebuild.'
 	elif [ $STATE == "running" ]; then
-		echo "A cheer echoes in the air, warriors of Korghalla welcome your aid."
 		STATUS=$(ssh 10.0.0.25 -f  'sudo systemctl status valheimserver.service |grep -o running')
-		echo $STATUS
+		if [ $STATUS == "running" ]; then
+			echo "A cheer echoes in the air, warriors of Korghalla welcome your aid."
+		else
+			echo "Something terrible is wrong."
+		fi
 	else
 		echo "Loki must be playing tricks on us, Korghalla is hidden in the mysts!"
 	fi
