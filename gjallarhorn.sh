@@ -12,17 +12,27 @@ source /home/ubuntu/.aws.env
 
 
 #check if powered off/on
-STOPPED=$(aws ec2 describe-instances \
-	--instance-ids $KORGHALLA_ID \
-	--filters Name=instance-state-code,Values=80 \
-	--output text \
-	| grep -o stopped)
+check_status() 
+{
+	STATUS=$(aws ec2 describe-instances \
+		--instance-ids $KORGHALLA_ID \
+		--query "Reservations[*].Instances[*].[State.Name]" \
+		--o text)
+	return STATUS
+}
 
+boot()
+{
 
-#if powered off, power it on
-if [ ! -z $STOPPED ]; then
-	echo "It appears Korghalla has fallen, rebuilding."
-	aws ec2 start-instances --instance-ids $KORGHALLA_ID
-else
-	echo "Korghalla is alive and well warrior."
-fi
+	STATUS=$(check_status)
+	#if powered off, power it on
+	if [ $STATUS == "stopped" ]; then
+		echo "It appears Korghalla has fallen, rebuilding."
+		aws ec2 start-instances --instance-ids $KORGHALLA_ID
+	else
+		echo "Korghalla is alive and well warrior."
+	fi
+}
+
+boot
+
