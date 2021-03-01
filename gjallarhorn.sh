@@ -43,9 +43,9 @@ check_status()
 	elif [ $STATE == "running" ]; then
 		STATUS=$(ssh 10.0.0.25 -f  'sudo systemctl status valheimserver.service |grep -o running')
 		if [ $STATUS == "running" ]; then
-			echo "A cheer echoes in the air, warriors of Korghalla welcome your aid."
+			echo "A cheer echoes in the air, warriors of Korghalla beckon you to join them!"
 		else
-			echo "Something terrible is wrong."
+			echo "Something terrible is wrong.  Get Ikorg some mead stat!"
 		fi
 	else
 		echo "Loki must be playing tricks on us, Korghalla is hidden in the mysts!"
