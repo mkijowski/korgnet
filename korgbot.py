@@ -99,37 +99,21 @@ async def valheim_restart(ctx):
     #odin = client.get_user(218952310053666816)
     #await odin.send('Someone sounded the Gjallarhorn!')
 
-    command = '/home/ubuntu/git/korgnet/gjallarhorn.sh'
+    command = '/home/ubuntu/git/korgnet/gjallarhorn.sh boot'
     await ctx.send('The mighty beast Korgnarok has fled! The roots of Korggdrasil once again allow passage to Korghalla!')
     #await ctx.send('All Korghallan\'s may check the fate of this world with `!gramr`.')
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
-    #response=korghalla_status()
-    #await ctx.send(response)
-    #if 'Korgnarok' in response:
-    #    await odin.send('Korgnarok has won, your script has failed!')
-    #else:
-    #    await odin.send('Korghalla has risen from the ashes!')
 
 #discord frontend for valheim status checker
 @client.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
 @commands.has_role('Korghallan')
 async def check(ctx):
-    #response=korghalla_status()
-    await ctx.send('The mighty sword Gramr is not as useful at this task!')
-    #if 'Korgnarok' in response:
-    #    await odin.send('Korgnarok has won, your script has failed!')
-    #else:
-    #    await odin.send('Korghalla has risen from the ashes!')
-    
-#valheim status checker
-def korghalla_status():
-    command = 'ssh 10.0.0.25 -f  \'sudo systemctl status valheimserver.service |grep Active\''
+    command = '/home/ubuntu/git/korgnet/gjallarhorn.sh check_status'
+    await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
-    if 'Active' in result.stdout:
-        return 'Hrungnir hungers warrior, go out and slay that troll!'
-    else:
-        return 'Korghalla has fallen, Korgnarok is upon us!'
-
+    response=result.stdout
+    await ctx.send(response)
+    
 
 ##### ================== #####
 ##### SERVER MANAGEMENT  #####

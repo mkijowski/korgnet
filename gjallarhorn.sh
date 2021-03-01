@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exec &> >( logger -t gjallarhorn )
+#exec &> >( logger -t gjallarhorn )
 
 source /home/ubuntu/.aws.env
 ##################################################
@@ -12,7 +12,7 @@ source /home/ubuntu/.aws.env
 
 
 #check if powered off/on
-check_status() 
+get_state() 
 {
 	STATUS=$(aws ec2 describe-instances \
 		--instance-ids $KORGHALLA_ID \
@@ -21,12 +21,12 @@ check_status()
 	echo $STATUS
 }
 
+
 boot()
 {
-
-	STATUS=$(check_status)
+	STATE=$(get_state)
 	#if powered off, power it on
-	if [ $STATUS == "stopped" ]; then
+	if [ $STATE == "stopped" ]; then
 		echo "It appears Korghalla has fallen, rebuilding."
 		aws ec2 start-instances --instance-ids $KORGHALLA_ID
 	else
@@ -34,5 +34,21 @@ boot()
 	fi
 }
 
-boot
+check_status()
+{
+	STATE=$(get_state)
+	#if powered off, power it on
+	if [ $STATE == "stopped" ]; then
+		echo 'The ring of Gramr falls dead in the air, it appears Korghalla has fallen. Sound the mighty `!gjallarhorn` to rebuild.'
+	elif [ $STATE == "running"]; then
+		echo "A cheer echoes in the air, warriors of Korghalla welcome your aid."
+		STATUS=$(ssh 10.0.0.25 -f  'sudo systemctl status valheimserver.service |grep Active')
+		echo $STATUS
+	else
+		echo "Loki must be playing tricks on us, Korghalla is hidden in the mysts!"
+	fi
+
+}
+
+$@
 
