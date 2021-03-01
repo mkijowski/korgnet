@@ -18,7 +18,7 @@ check_status()
 		--instance-ids $KORGHALLA_ID \
 		--query "Reservations[*].Instances[*].[State.Name]" \
 		--o text)
-	return STATUS
+	echo $STATUS
 }
 
 boot()
