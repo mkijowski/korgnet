@@ -19,7 +19,7 @@ From:ubuntu:18.04
 	bash /opt/anaconda.sh -b -p /opt/anaconda3
 	rm /opt/anaconda.sh
 
-	export PATH=/opt/anaconda3/bin/:$PATH
+	export PATH=/opt/anaconda3/bin:$PATH
 
 	conda update -y -n base conda
 	conda install -y \
