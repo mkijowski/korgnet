@@ -96,8 +96,9 @@ async def bork(ctx):
 @commands.has_role('Asgardian')
 async def valheim_restart(ctx):
     #alert Matt
-    #odin = client.get_user(218952310053666816)
-    #await odin.send('Someone sounded the Gjallarhorn!')
+    odin = client.get_user(218952310053666816)
+    channel = await odin.create_dm()
+    await channel.send('Someone sounded the Gjallarhorn!')
 
     command = '/home/ubuntu/git/korgnet/gjallarhorn.sh boot'
     await ctx.send('The mighty beast Korgnarok has fled! The roots of Korggdrasil once again allow passage to Korghalla!')
