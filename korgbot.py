@@ -6,7 +6,6 @@ import discord
 import sys
 import aiofiles
 
-
 from dotenv import load_dotenv
 from discord.ext import commands
 from time import sleep, time
@@ -20,6 +19,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 client = discord.Client()
 client = commands.Bot(command_prefix='!')
 
+
 @client.event
 async def on_ready():
     for guild in client.guilds:
@@ -30,6 +30,7 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
+
 
 ##### ================== #####
 ##### MEMEBER MANAGEMENT #####
@@ -45,14 +46,6 @@ async def on_member_join(member):
         f'If I learn a new trick I\'ll brag about it in my instructions channel.\n'
     )
 
-#error events
-@client.event
-async def on_error(event, *args, **kwargs):
-    with open('err.log', 'a') as f:
-        if event == 'on_message':
-            f.write(f'Unhandled message: {args[0]}\n')
-        else:
-            raise
 
 @client.command(name='99', help='Responds with a random quote from Brooklyn 99')
 async def nine_nine(ctx):
@@ -60,14 +53,12 @@ async def nine_nine(ctx):
         'I\'m the human form of the 💯 emoji.',
         'Bingpot!',
         'Are those gummy bears wrapped in a fruit roll-up?',
-        (
-            'Cool. Cool cool cool cool cool cool cool, '
-            'no doubt no doubt no doubt no doubt.'
-        ),
+        'Cool. Cool cool cool cool cool cool cool, \nno doubt no doubt no doubt no doubt.'
     ]
 
     response = random.choice(brooklyn_99_quotes)
     await ctx.send(response)
+
 
 #summon a Griffindork
 @client.command(name='whoisit', help='Release the hound')
@@ -89,6 +80,7 @@ async def bork(ctx):
     await ctx.send(file=discord.File(picture))
     await ctx.send('Bark! Bork!')
 
+
 ##### ================== #####
 ##### VALHEIM MANAGEMENT #####
 ##### ================== #####
@@ -96,28 +88,37 @@ async def bork(ctx):
 #discord frontend for valheim server reboot.  This backs up the world and restarts the service.
 #The korgnarok.sh script has two, one minute hardcoded wait timers to be sure the service stops 
 #and starts.  Checks the status of the server at the end and if down DM's Odin(kijowski) 
-@client.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
+@client.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! \
+        If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
 @commands.has_role('Asgardian')
 async def valheim_restart(ctx):
     #alert Matt
     odin = await ctx.guild.fetch_member(218952310053666816)
     channel = await odin.create_dm()
     await channel.send('Someone sounded the Gjallarhorn!')
-    command = '/home/ubuntu/git/korgnet/gjallarhorn.sh boot'
+
+    #power on server
     await ctx.send('The mighty beast Korgnarok has fled! The roots of Korggdrasil once again allow passage to Korghalla!')
-    #await ctx.send('All Korghallan\'s may check the fate of this world with `!gramr`.')
-    result = subprocess.run(command.split(' '), capture_output=True, text=True)
+    await ctx.send('All Korghallan\'s may check the fate of this world with `!gramr`.')
+    command = '/home/ubuntu/git/korgnet/gjallarhorn.sh boot'
+    response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
+
+    await log(response)
+
 
 #discord frontend for valheim status checker
 @client.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
 @commands.has_role('Korghallan')
 async def check(ctx):
+    await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, \
+            its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
+    
     command = '/home/ubuntu/git/korgnet/gjallarhorn.sh check_status'
-    await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
-    result = subprocess.run(command.split(' '), capture_output=True, text=True)
-    response=result.stdout
+    response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
+    
     await ctx.send(response)
-    await log(response, timestamp = True) 
+    await log(response) 
+
 
 ##### ================== #####
 ##### SERVER MANAGEMENT  #####
@@ -134,6 +135,7 @@ async def restart(ctx):
         result = subprocess.run(command.split(' '), capture_output=True, text=True)
         os.execv(sys.argv[0], sys.argv)
 
+
 #confirmation checker, did you really mean to restart?
 async def confirmation(ctx, confirm_string='confirm'):
     # Ask for confirmation
@@ -147,6 +149,7 @@ async def confirmation(ctx, confirm_string='confirm'):
     else:
         await ctx.send(f'Confirmation failed, terminating execution')
         return False
+
 
 async def log(string, timestamp=True):
     # Log to stdout
@@ -172,6 +175,16 @@ async def log(string, timestamp=True):
         for line in previous_logs:
             await f.write(line.strip() + '\n')
         await f.write(timestamp_string + ' ' + string + '\n')
+
+
+#error events
+@client.event
+async def on_error(event, *args, **kwargs):
+    with open('err.log', 'a') as f:
+        if event == 'on_message':
+            f.write(f'Unhandled message: {args[0]}\n')
+        else:
+            raise
 
 
 client.run(TOKEN)
