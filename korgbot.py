@@ -114,6 +114,7 @@ async def valheim_restart(ctx):
 async def check(ctx):
     command = '/home/ubuntu/git/korgnet/gjallarhorn.sh check_status'
     await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
+    print(len(ctx.guild.members))
     odin = client.get_user(218952310053666816)
     channel = await odin.create_dm()
     await channel.send('Someone wielded Gramr!')
