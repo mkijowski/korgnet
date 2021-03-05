@@ -10,6 +10,7 @@ import aiofiles
 from dotenv import load_dotenv
 from discord.ext import commands
 from time import sleep, time
+from datetime import datetime
 
 #get environment info
 load_dotenv()
@@ -99,10 +100,9 @@ async def bork(ctx):
 @commands.has_role('Asgardian')
 async def valheim_restart(ctx):
     #alert Matt
-    odin = client.get_user(218952310053666816)
+    odin = await ctx.guild.fetch_member(218952310053666816)
     channel = await odin.create_dm()
     await channel.send('Someone sounded the Gjallarhorn!')
-
     command = '/home/ubuntu/git/korgnet/gjallarhorn.sh boot'
     await ctx.send('The mighty beast Korgnarok has fled! The roots of Korggdrasil once again allow passage to Korghalla!')
     #await ctx.send('All Korghallan\'s may check the fate of this world with `!gramr`.')
@@ -114,14 +114,10 @@ async def valheim_restart(ctx):
 async def check(ctx):
     command = '/home/ubuntu/git/korgnet/gjallarhorn.sh check_status'
     await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
-    print(len(ctx.guild.members))
-    odin = client.get_user(218952310053666816)
-    channel = await odin.create_dm()
-    await channel.send('Someone wielded Gramr!')
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
     response=result.stdout
     await ctx.send(response)
-    
+    await log(response, timestamp = True) 
 
 ##### ================== #####
 ##### SERVER MANAGEMENT  #####

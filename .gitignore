@@ -8,6 +8,7 @@ __pycache__/
 *.sql
 *.sqlite
 *.swp
+log
 
 # OS generated files #
 ######################
