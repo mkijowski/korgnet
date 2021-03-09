@@ -50,3 +50,7 @@ async def confirmation(client, ctx, confirm_string='confirm'):
     else:
         await ctx.send(f'Confirmation failed, terminating execution')
         return False
+
+def git_update():
+    command = 'git pull'
+    result = subprocess.run(command.split(' '), capture_output=True, text=True)

@@ -24,6 +24,5 @@ class ServerManagement(commands.Cog):
     async def restart(self, ctx):
         if await confirmation(self.bot, ctx):
             await ctx.send('Restarting...')
-            command = 'git pull'
-            result = subprocess.run(command.split(' '), capture_output=True, text=True)
+            git_update
             os.execv(sys.argv[0], sys.argv)
