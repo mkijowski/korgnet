@@ -21,9 +21,10 @@ class ValheimCommands(commands.Cog):
     @commands.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
     @commands.has_role('Asgardian')
     async def valheim_restart(self, ctx):
-        #alert Matt{
+        #alert Matt and log command run
         await dm(member=await ctx.guild.fetch_member(218952310053666816), content=f'{ctx.author} sounded the Gjallarhorn!')
-
+        await log(self.bot, f'{ctx.author} sounded the Gjallarhorn!')
+        
         #power on server
         await ctx.send('The mighty beast Korgnarok has fled! The roots of Korggdrasil once again allow passage to Korghalla!')
         await ctx.send('All Korghallan\'s may check the fate of this world with `!gramr`.')
