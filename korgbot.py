@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from discord.ext import commands
 from time import sleep, time
 from datetime import datetime
+from utils import *
 
 #get environment info
 load_dotenv()
