@@ -1,7 +1,6 @@
 from os.path import exists
 
 from discord.ext import commands
-from utils import *
 
 
 def setup(bot):
