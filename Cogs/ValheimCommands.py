@@ -22,7 +22,7 @@ class ValheimCommands(commands.Cog):
     @commands.has_role('Asgardian')
     async def valheim_restart(self, ctx):
         #alert Matt{
-        await dm(member=ctx.guild.fetch_member(218952310053666816), content=f'{ctx.author} sounded the Gjallarhorn!')
+        await dm(member=await ctx.guild.fetch_member(218952310053666816), content=f'{ctx.author} sounded the Gjallarhorn!')
 
         #power on server
         await ctx.send('The mighty beast Korgnarok has fled! The roots of Korggdrasil once again allow passage to Korghalla!')
