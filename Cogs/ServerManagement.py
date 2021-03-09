@@ -20,7 +20,7 @@ class ServerManagement(commands.Cog):
     @commands.command(name='restart', help='Git pulls any new code and restarts discord bot.')
     @commands.has_permissions(administrator=True)
     async def restart(self, ctx):
-        if await confirmation(ctx):
+        if await confirmation(self, ctx):
             await ctx.send('Restarting...')
             command = 'git pull'
             result = subprocess.run(command.split(' '), capture_output=True, text=True)
