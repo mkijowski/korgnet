@@ -31,7 +31,7 @@ class ValheimCommands(commands.Cog):
         command = '/home/ubuntu/git/korgnet/scripts/gjallarhorn.sh boot'
         response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
 
-        await log(client, response)
+        await log(self.bot, response)
 
 
     #discord frontend for valheim status checker
@@ -45,4 +45,4 @@ class ValheimCommands(commands.Cog):
         response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
     
         await ctx.send(response)
-        await log(client, response) 
+        await log(self.bot, response) 
