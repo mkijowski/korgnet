@@ -1,3 +1,4 @@
+import subprocess
 from os.path import exists
 
 from discord.ext import commands
@@ -15,6 +16,8 @@ class CogManagement(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def reload(self, ctx, cog_name):
         await ctx.send(f'Reloading {cog_name}')
+        command = 'git pull'
+        result = subprocess.run(command.split(' '), capture_output=True, text=True)
         self.bot.reload_extension(f'Cogs.{cog_name}')
         if cog_name == 'ServerManagement':
             await self.load_server_management()
@@ -24,12 +27,16 @@ class CogManagement(commands.Cog):
     async def unload(self, ctx, cog_name):
         if cog_name != 'CogManagement':
             await ctx.send(f'Unloading {cog_name}')
+            command = 'git pull'
+            result = subprocess.run(command.split(' '), capture_output=True, text=True)
             self.bot.unload_extension(f'Cogs.{cog_name}')
 
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def load(self, ctx, cog_name):
         await ctx.send(f'Loading {cog_name}')
+        command = 'git pull'
+        result = subprocess.run(command.split(' '), capture_output=True, text=True)
         self.bot.load_extension(f'Cogs.{cog_name}')
         if cog_name == 'ServerManagement':
             await self.load_server_management()
