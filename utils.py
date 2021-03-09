@@ -35,3 +35,19 @@ async def log(client, string, timestamp=True):
 async def dm(member, content):
     channel = await member.create_dm()
     await channel.send(content)
+
+
+#confirmation checker, did you really mean to restart?
+async def confirmation(self, ctx, confirm_string='confirm'):
+    # Ask for confirmation
+    await ctx.send(f'Enter `{confirm_string}` to confirm action')
+
+    # Wait for confirmation
+    msg = await client.wait_for('message', check=lambda message: message.author == ctx.author)
+    if msg.content == confirm_string:
+        await ctx.send(f'Action confirmed, executing')
+        return True
+    else:
+        await ctx.send(f'Confirmation failed, terminating execution')
+        return False
+        

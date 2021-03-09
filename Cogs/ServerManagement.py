@@ -6,6 +6,7 @@ import discord
 from discord.ext import commands
 from time import sleep, time
 from datetime import datetime
+from utils import *
 
 def setup(bot):
     bot.add_cog(ServerManagement(bot))
@@ -24,18 +25,3 @@ class ServerManagement(commands.Cog):
             command = 'git pull'
             result = subprocess.run(command.split(' '), capture_output=True, text=True)
             os.execv(sys.argv[0], sys.argv)
-
-
-    #confirmation checker, did you really mean to restart?
-    async def confirmation(self, ctx, confirm_string='confirm'):
-        # Ask for confirmation
-        await ctx.send(f'Enter `{confirm_string}` to confirm action')
-
-        # Wait for confirmation
-        msg = await client.wait_for('message', check=lambda message: message.author == ctx.author)
-        if msg.content == confirm_string:
-            await ctx.send(f'Action confirmed, executing')
-            return True
-        else:
-            await ctx.send(f'Confirmation failed, terminating execution')
-            return False

@@ -37,8 +37,7 @@ class ValheimCommands(commands.Cog):
     @commands.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
     @commands.has_role('Korghallan')
     async def check(self, ctx):
-        await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, \
-            \b\b\bits ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
+        await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
     
         command = '/home/ubuntu/git/korgnet/scripts/gjallarhorn.sh check_status'
         response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
