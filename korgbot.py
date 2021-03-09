@@ -45,7 +45,7 @@ async def on_ready():
                 pass
     
     for guild in client.guilds:
-        await log(client, 'Connected to the following guild: {guild}')
+        await log(client, f'Connected to the following guild: {guild}')
 
     # Show the bot as online
     await client.change_presence(activity=discord.Game('Not quite asleep...'), status=discord.Status.online, afk=False)
