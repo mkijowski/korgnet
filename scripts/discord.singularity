@@ -26,4 +26,5 @@ From:ubuntu:18.04
 		pip
 
         pip install discord.py
+		pip install aiofiles
         pip install -U python-dotenv

@@ -3,13 +3,13 @@ import os
 import subprocess
 import random
 import discord
-import sys
 import aiofiles
 
 from dotenv import load_dotenv
 from discord.ext import commands
 from time import sleep, time
 from datetime import datetime
+from utils import *
 
 #get environment info
 load_dotenv()
@@ -18,23 +18,46 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client()
 client = commands.Bot(command_prefix='!')
+start_time = time()
 
 
 @client.event
 async def on_ready():
+    # Startup status
+    await client.change_presence(activity=discord.Game('Booting'), status=discord.Status.dnd)
+
+    # Start logging
+    await log(client, '###################################')
+    await log(client, '# BOT STARTING FROM FULL SHUTDOWN #')
+    await log(client, '###################################')
+    
+    # Startup status
+    await client.change_presence(activity=discord.Game('Building servers'), status=discord.Status.idle)
+
+    # Load all cogs
+    await client.change_presence(activity=discord.Game(f'Loading Cogs'), status=discord.Status.idle)
+    for file in os.listdir('Cogs'):
+        if not file.startswith('__') and file.endswith('.py'):
+            try:
+                client.load_extension(f'Cogs.{file[:-3]}')
+                await log(client, f'Loaded cog: {file[:-3]}')
+            except commands.errors.NoEntryPointError:
+                pass
+    
     for guild in client.guilds:
-        if guild.name == GUILD:
-            break
+        await log(client, f'Connected to the following guild: {guild}')
 
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
+    # Show the bot as online
+    await client.change_presence(activity=discord.Game('Not quite asleep...'), status=discord.Status.online, afk=False)
+    await log(client, 'Bot is online')
 
+    
+    # Print startup duration
+    await log(client, '#########################')
+    await log(client, '# BOT STARTUP COMPLETED #')
+    await log(client, '#########################\n\n')
+    await log(client, f'Started in {round(time() - start_time, 1)} seconds')
 
-##### ================== #####
-##### MEMEBER MANAGEMENT #####
-##### ================== #####
 
 #welcome
 @client.event
@@ -47,145 +70,28 @@ async def on_member_join(member):
     )
 
 
-@client.command(name='99', help='Responds with a random quote from Brooklyn 99')
-async def nine_nine(ctx):
-    brooklyn_99_quotes = [
-        'I\'m the human form of the 💯 emoji.',
-        'Bingpot!',
-        'Are those gummy bears wrapped in a fruit roll-up?',
-        'Cool. Cool cool cool cool cool cool cool, \nno doubt no doubt no doubt no doubt.'
-    ]
-
-    response = random.choice(brooklyn_99_quotes)
-    await ctx.send(response)
-
-
-#summon a Griffindork
-@client.command(name='whoisit', help='Release the hound')
-async def bork(ctx):
-    griff_pics = [
-            'griff1.jpg',
-            'griff2.jpg',
-            'griff3.jpg',
-            'griff4.jpg',
-            'griff5.jpg',
-            'griff6.jpg',
-            'griff7.jpg',
-            'griff8.jpg',
-            'griff9.jpg',
-            'griff10.jpg',
-            'griff11.jpg',
-            ]
-    picture = './griff/' + random.choice(griff_pics)
-    await ctx.send(file=discord.File(picture))
-    await ctx.send('Bark! Bork!')
-
-
-##### ================== #####
-##### VALHEIM MANAGEMENT #####
-##### ================== #####
-
-#discord frontend for valheim server reboot.  This backs up the world and restarts the service.
-#The korgnarok.sh script has two, one minute hardcoded wait timers to be sure the service stops 
-#and starts.  Checks the status of the server at the end and if down DM's Odin(kijowski) 
-@client.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! \
-        If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
-@commands.has_role('Asgardian')
-async def valheim_restart(ctx):
-    #alert Matt
-    odin = await ctx.guild.fetch_member(218952310053666816)
-    channel = await odin.create_dm()
-    await channel.send('Someone sounded the Gjallarhorn!')
-
-    #power on server
-    await ctx.send('The mighty beast Korgnarok has fled! The roots of Korggdrasil once again allow passage to Korghalla!')
-    await ctx.send('All Korghallan\'s may check the fate of this world with `!gramr`.')
-    command = '/home/ubuntu/git/korgnet/gjallarhorn.sh boot'
-    response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
-
-    await log(response)
-
-
-#discord frontend for valheim status checker
-@client.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
-@commands.has_role('Korghallan')
-async def check(ctx):
-    await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, \
-            its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
-    
-    command = '/home/ubuntu/git/korgnet/gjallarhorn.sh check_status'
-    response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
-    
-    await ctx.send(response)
-    await log(response) 
-
-
-##### ================== #####
-##### SERVER MANAGEMENT  #####
-##### ================== #####
-
-
-# server restart command, also runs a git pull so that it will update the server before restarting.
-@client.command(name='restart', help='Git pulls any new code and restarts discord bot.')
-@commands.has_permissions(administrator=True)
-async def restart(ctx):
-    if await confirmation(ctx):
-        await ctx.send('Restarting...')
-        command = 'git pull'
-        result = subprocess.run(command.split(' '), capture_output=True, text=True)
-        os.execv(sys.argv[0], sys.argv)
-
-
-#confirmation checker, did you really mean to restart?
-async def confirmation(ctx, confirm_string='confirm'):
-    # Ask for confirmation
-    await ctx.send(f'Enter `{confirm_string}` to confirm action')
-
-    # Wait for confirmation
-    msg = await client.wait_for('message', check=lambda message: message.author == ctx.author)
-    if msg.content == confirm_string:
-        await ctx.send(f'Action confirmed, executing')
-        return True
-    else:
-        await ctx.send(f'Confirmation failed, terminating execution')
-        return False
-
-
-async def log(string, timestamp=True):
-    # Log to stdout
-    timestamp_string = ''
-    if timestamp:
-        timestamp_string = f'[{str(datetime.now())[:-7]}]'
-    print(timestamp_string + ' ' + string)
-
-    # Log to channel
-    for guild in client.guilds:
-        for channel in guild.text_channels:
-            if channel.name == 'bot-logs':
-                await channel.send(string)
-
-    # Log to file
-    try:
-        async with aiofiles.open('log', mode='r') as f:
-            previous_logs = await f.readlines()
-    except FileNotFoundError:
-        previous_logs = []
-
-    async with aiofiles.open('log', mode='w') as f:
-        for line in previous_logs:
-            await f.write(line.strip() + '\n')
-        await f.write(timestamp_string + ' ' + string + '\n')
-
-
 #error events
 @client.event
-async def on_error(event, *args, **kwargs):
-    with open('err.log', 'a') as f:
-        if event == 'on_message':
-            f.write(f'Unhandled message: {args[0]}\n')
-        else:
-            raise
+async def on_command_error(ctx, error):
+    author, message = ctx.author, ctx.message.content
+
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Missing required arguement')
+        await ctx.send_help()
+        await log(client, f'{author} attempted to run `{message}` but failed because they were missing a required argument')
+
+    elif isinstance(error, commands.MissingRole):
+        await ctx.send('Missing role')
+        await log(client, f'{author} attempted to run `{message}` but failed because they were missing a required role')
+
+    elif isinstance(error, commands.CommandNotFound):
+        await log(client, f'{author} attempted to run `{message}` but failed because the command was not found')
+
+    else:
+        await ctx.send(f'Unexpected error: {error}')
+        await log(client, f'{author} attempted to run `{message}` but failed because of an unexpected error: {error}')
 
 
-client.run(TOKEN)
-
+if __name__ == '__main__':
+    # Run bot from key given by command line argument
+    client.run(TOKEN)
