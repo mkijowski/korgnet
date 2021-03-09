@@ -19,7 +19,7 @@ class ValheimCommands(commands.Cog):
     @commands.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! \
         \b\bIf you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
     @commands.has_role('Asgardian')
-    async def valheim_restart(ctx):
+    async def valheim_restart(self, ctx):
         #alert Matt
         await dm(member=ctx.guild.fetch_member(218952310053666816), content='Someone sounded the Gjallarhorn!')
 
@@ -35,7 +35,7 @@ class ValheimCommands(commands.Cog):
     #discord frontend for valheim status checker
     @commands.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
     @commands.has_role('Korghallan')
-    async def check(ctx):
+    async def check(self, ctx):
         await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, \
             \b\b\bits ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
     
