@@ -18,6 +18,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 client = discord.Client()
 client = commands.Bot(command_prefix='!')
+start_time = time()
 
 
 @client.event
@@ -26,8 +27,7 @@ async def on_ready():
     await client.change_presence(activity=discord.Game('Booting'), status=discord.Status.dnd)
 
     # Start logging
-    await log('\n\n\n\n\n', False)
-    await log('###################################')
+    await log('\n\n\n\n\n###################################')
     await log('# BOT STARTING FROM FULL SHUTDOWN #')
     await log('###################################')
     
