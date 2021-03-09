@@ -3,7 +3,6 @@ import os
 import subprocess
 import random
 import discord
-import sys
 import aiofiles
 
 from dotenv import load_dotenv
