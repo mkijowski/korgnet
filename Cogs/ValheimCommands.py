@@ -18,11 +18,11 @@ class ValheimCommands(commands.Cog):
 
 
     #discord frontend for valheim server poweron, only asgardians can run 
-    @commands.command(name='gjallarhorn', help='KEYSound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
+    @commands.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
     @commands.has_role('Asgardian')
     async def valheim_restart(self, ctx):
-        #alert Matt
-        await dm(member=ctx.guild.fetch_member(218952310053666816), content='Someone sounded the Gjallarhorn!')
+        #alert Matt{
+        await dm(member=ctx.guild.fetch_member(218952310053666816), content=f'{ctx.author} sounded the Gjallarhorn!')
 
         #power on server
         await ctx.send('The mighty beast Korgnarok has fled! The roots of Korggdrasil once again allow passage to Korghalla!')
@@ -37,7 +37,7 @@ class ValheimCommands(commands.Cog):
     @commands.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
     @commands.has_role('Korghallan')
     async def check(self, ctx):
-        await ctx.send('You pull the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
+        await ctx.send(f'{ctx.author} pulls the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
     
         command = '/home/ubuntu/git/korgnet/scripts/gjallarhorn.sh check_status'
         response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout

@@ -27,7 +27,7 @@ async def on_ready():
     await client.change_presence(activity=discord.Game('Booting'), status=discord.Status.dnd)
 
     # Start logging
-    await log(client, '\n\n\n\n\n###################################')
+    await log(client, '###################################')
     await log(client, '# BOT STARTING FROM FULL SHUTDOWN #')
     await log(client, '###################################')
     
@@ -45,7 +45,7 @@ async def on_ready():
                 pass
     
     for guild in client.guilds:
-        await log(client, '{client.user} is connected to the following guild:\n{guild.name}(id: {guild.id})')
+        await log(client, 'Connected to the following guild: {guild}')
 
     # Show the bot as online
     await client.change_presence(activity=discord.Game('Not quite asleep...'), status=discord.Status.online, afk=False)
@@ -55,7 +55,7 @@ async def on_ready():
     # Print startup duration
     await log(client, '#########################')
     await log(client, '# BOT STARTUP COMPLETED #')
-    await log(client, '#########################\n')
+    await log(client, '#########################\n\n')
     await log(client, f'Started in {round(time() - start_time, 1)} seconds')
 
 
