@@ -6,6 +6,7 @@ import discord
 from discord.ext import commands
 from time import sleep, time
 from datetime import datetime
+from utils import *
 
 def setup(bot):
     bot.add_cog(ValheimCommands(bot))
