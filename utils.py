@@ -1,8 +1,10 @@
 import re
-from datetime import datetime
-
+import subprocess
 import aiofiles
 import discord
+
+from datetime import datetime
+
 
 #Make logging available
 async def log(client, string, timestamp=True):
