@@ -2,6 +2,8 @@ import os
 import subprocess
 import random
 import discord
+import sys
+
 
 from discord.ext import commands
 from time import sleep, time
