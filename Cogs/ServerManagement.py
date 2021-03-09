@@ -18,7 +18,7 @@ class ServerManagement(commands.Cog):
     # server restart command, also runs a git pull so that it will update the server before restarting.
     @commands.command(name='restart', help='Git pulls any new code and restarts discord bot.')
     @commands.has_permissions(administrator=True)
-    async def restart(ctx):
+    async def restart(self, ctx):
         if await confirmation(ctx):
             await ctx.send('Restarting...')
             command = 'git pull'
@@ -27,7 +27,7 @@ class ServerManagement(commands.Cog):
 
 
     #confirmation checker, did you really mean to restart?
-    async def confirmation(ctx, confirm_string='confirm'):
+    async def confirmation(self, ctx, confirm_string='confirm'):
         # Ask for confirmation
         await ctx.send(f'Enter `{confirm_string}` to confirm action')
 

@@ -12,7 +12,7 @@ class MemberCommands(commands.Cog):
         self.bot = bot
 
     @commands.command(name='99', help='Responds with a random quote from Brooklyn 99')
-    async def nine_nine(ctx):
+    async def nine_nine(self, ctx):
         brooklyn_99_quotes = [
             'I\'m the human form of the 💯 emoji.',
             'Bingpot!',
@@ -26,8 +26,7 @@ class MemberCommands(commands.Cog):
 
     #summon a Griffindork
     @commands.command(name='whoisit', help='Release the hound')
-    async def bork(ctx):
+    async def bork(self, ctx):
         picture = './griff/' + random.choice(os.listdir('./griff/'))
         await ctx.send(file=discord.File(picture))
         await ctx.send('Bark! Bork!')
-        
