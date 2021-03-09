@@ -27,9 +27,9 @@ async def on_ready():
     await client.change_presence(activity=discord.Game('Booting'), status=discord.Status.dnd)
 
     # Start logging
-    await log('\n\n\n\n\n###################################')
-    await log('# BOT STARTING FROM FULL SHUTDOWN #')
-    await log('###################################')
+    await log(client, '\n\n\n\n\n###################################')
+    await log(client, '# BOT STARTING FROM FULL SHUTDOWN #')
+    await log(client, '###################################')
     
     # Startup status
     await client.change_presence(activity=discord.Game('Building servers'), status=discord.Status.idle)
@@ -40,23 +40,23 @@ async def on_ready():
         if not file.startswith('__') and file.endswith('.py'):
             try:
                 client.load_extension(f'Cogs.{file[:-3]}')
-                await log(f'Loaded cog: {file[:-3]}')
+                await log(client, f'Loaded cog: {file[:-3]}')
             except commands.errors.NoEntryPointError:
                 pass
     
     for guild in client.guilds:
-        await log('{client.user} is connected to the following guild:\n{guild.name}(id: {guild.id})')
+        await log(client, '{client.user} is connected to the following guild:\n{guild.name}(id: {guild.id})')
 
     # Show the bot as online
     await client.change_presence(activity=discord.Game('Not quite asleep...'), status=discord.Status.online, afk=False)
-    await log('Bot is online')
+    await log(client, 'Bot is online')
 
     
     # Print startup duration
-    await log('#########################')
-    await log('# BOT STARTUP COMPLETED #')
-    await log('#########################\n')
-    await log(f'Started in {round(time() - start_time, 1)} seconds')
+    await log(client, '#########################')
+    await log(client, '# BOT STARTUP COMPLETED #')
+    await log(client, '#########################\n')
+    await log(client, f'Started in {round(time() - start_time, 1)} seconds')
 
 
 #welcome
@@ -70,7 +70,7 @@ async def on_member_join(member):
     )
 
 #Make logging available
-async def log(string, timestamp=True):
+async def log(client, string, timestamp=True):
     # Log to stdout
     timestamp_string = ''
     if timestamp:
@@ -109,18 +109,18 @@ async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingRequiredArgument):
         await ctx.send('Missing required arguement')
         await ctx.send_help()
-        await log(f'{author} attempted to run `{message}` but failed because they were missing a required argument')
+        await log(client, f'{author} attempted to run `{message}` but failed because they were missing a required argument')
 
     elif isinstance(error, commands.MissingRole):
         await ctx.send('Missing role')
-        await log(f'{author} attempted to run `{message}` but failed because they were missing a required role')
+        await log(client, f'{author} attempted to run `{message}` but failed because they were missing a required role')
 
     elif isinstance(error, commands.CommandNotFound):
-        await log(f'{author} attempted to run `{message}` but failed because the command was not found')
+        await log(client, f'{author} attempted to run `{message}` but failed because the command was not found')
 
     else:
         await ctx.send(f'Unexpected error: {error}')
-        await log(f'{author} attempted to run `{message}` but failed because of an unexpected error: {error}')
+        await log(client, f'{author} attempted to run `{message}` but failed because of an unexpected error: {error}')
 
 
 if __name__ == '__main__':

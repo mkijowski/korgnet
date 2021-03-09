@@ -8,13 +8,14 @@ from time import sleep, time
 from datetime import datetime
 from utils import *
 
+
 def setup(bot):
     bot.add_cog(ValheimCommands(bot))
 
 class ValheimCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
+
 
     #discord frontend for valheim server poweron, only asgardians can run 
     @commands.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! \
@@ -30,7 +31,7 @@ class ValheimCommands(commands.Cog):
         command = '/home/ubuntu/git/korgnet/scripts/gjallarhorn.sh boot'
         response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
 
-        await log(response)
+        await log(client, response)
 
 
     #discord frontend for valheim status checker
@@ -44,4 +45,4 @@ class ValheimCommands(commands.Cog):
         response = subprocess.run(command.split(' '), capture_output=True, text=True).stdout
     
         await ctx.send(response)
-        await log(response) 
+        await log(client, response) 
