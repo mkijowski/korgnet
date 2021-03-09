@@ -18,7 +18,7 @@ class ValheimCommands(commands.Cog):
 
 
     #discord frontend for valheim server poweron, only asgardians can run 
-    @commands.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
+    @commands.command(name='gjallarhorn', help='KEYSound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
     @commands.has_role('Asgardian')
     async def valheim_restart(self, ctx):
         #alert Matt
