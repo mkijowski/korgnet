@@ -38,7 +38,7 @@ async def dm(member, content):
 
 
 #confirmation checker, did you really mean to restart?
-async def confirmation(self, ctx, confirm_string='confirm'):
+async def confirmation(client, ctx, confirm_string='confirm'):
     # Ask for confirmation
     await ctx.send(f'Enter `{confirm_string}` to confirm action')
 
@@ -50,4 +50,3 @@ async def confirmation(self, ctx, confirm_string='confirm'):
     else:
         await ctx.send(f'Confirmation failed, terminating execution')
         return False
-        
