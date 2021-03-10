@@ -95,3 +95,4 @@ async def on_command_error(ctx, error):
 if __name__ == '__main__':
     # Run bot from key given by command line argument
     client.run(TOKEN)
+
