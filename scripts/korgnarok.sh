@@ -57,9 +57,13 @@ packet_monitor ()
 
 cleanup ()
 {
-
-
+for old in $(ls -tp /home/korghalla/ | grep -v '/$' | tail -n +11); do
+	echo "Deleting old world file: $old"
+	rm /home/korghalla/$old
+done
 }
+
+cleanup
 
 # start packet monitor and pass it an arbitrary amount of packets
 packet_monitor 1001
