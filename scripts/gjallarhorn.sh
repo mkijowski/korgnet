@@ -15,7 +15,7 @@ source /home/ubuntu/.aws.env
 get_state() 
 {
 	STATUS=$(aws ec2 describe-instances \
-		--instance-ids $KORGHALLA_ID \
+		--instance-ids $1 \
 		--query "Reservations[*].Instances[*].[State.Name]" \
 		--o text)
 	echo $STATUS
@@ -24,7 +24,7 @@ get_state()
 
 boot()
 {
-	STATE=$(get_state)
+	STATE=$(get_state $KORGHALLA_ID)
 	#if powered off, power it on
 	if [ $STATE == "stopped" ]; then
 		echo "It appears Korghalla has fallen, rebuilding."
@@ -34,9 +34,21 @@ boot()
 	fi
 }
 
+mlpboot()
+{
+	STATE=$(get_state $PWNIE_ID)
+	#if powered off, power it on
+	if [ $STATE == "stopped" ]; then
+		echo "Waking up the Pwnies."
+		aws ec2 start-instances --instance-ids $PWNIE_ID
+	else
+		echo "The pwnies are happy."
+	fi
+}
+
 check_status()
 {
-	STATE=$(get_state)
+	STATE=$(get_state $KORGHALLA_ID)
 	#if powered off, power it on
 	if [ $STATE == "stopped" ]; then
 		echo 'The ring of Gramr falls dead in the air, it appears Korghalla has fallen. Sound the mighty `!gjallarhorn` to rebuild.'
@@ -52,6 +64,27 @@ check_status()
 	fi
 
 }
+
+check_mlp_status()
+{
+	STATE=$(get_state $PWNIE_ID)
+	#if powered off, power it on
+	if [ $STATE == "stopped" ]; then
+		echo 'Quiet. `!redpill` to free your mind'
+	elif [ $STATE == "running" ]; then
+		echo "Hopefully we are up and running!"
+		#STATUS=$(ssh 10.0.0.25 -f  'sudo systemctl status valheimserver.service |grep -o running')
+		#if [ $STATUS == "running" ]; then
+		#	echo "A cheer echoes in the air, warriors of Korghalla beckon you to join them!"
+		#else
+		#	echo "Something terrible is wrong.  Get Ikorg some mead stat!"
+		#fi
+	else
+		echo "Get to an exit, something is wrong!"
+	fi
+
+}
+
 
 $@
 
