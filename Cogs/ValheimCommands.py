@@ -12,6 +12,8 @@ from utils import *
 def setup(bot):
     bot.add_cog(ValheimCommands(bot))
 
+def is_bifrost(ctx):
+    return ctx.channel.id == 818137307844050994
 class ValheimCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -20,6 +22,7 @@ class ValheimCommands(commands.Cog):
     #discord frontend for valheim server poweron, only asgardians can run 
     @commands.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
     @commands.has_role('Asgardian')
+    @commands.check(is_bifrost)
     async def valheim_restart(self, ctx):
         #alert Matt and log command run
         await dm(member=await ctx.guild.fetch_member(218952310053666816), content=f'{ctx.author} sounded the Gjallarhorn!')
@@ -37,6 +40,7 @@ class ValheimCommands(commands.Cog):
     #discord frontend for valheim status checker
     @commands.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
     @commands.has_role('Korghallan')
+    @commands.check(is_bifrost)
     async def check(self, ctx):
         await ctx.send(f'{ctx.author} pulls the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
     
