@@ -15,8 +15,10 @@ def setup(bot):
 
 def is_in_channel(channel_id):
     async def predicate(ctx):
+        await log(self.bot, f'Checking if {ctx.channel.id} is correct')
         return ctx.channel and ctx.channel.id == channel_id
     return commands.check(predicate)
+
 class ValheimCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
