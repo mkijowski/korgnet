@@ -37,7 +37,7 @@ class ValheimCommands(commands.Cog):
     #discord frontend for valheim status checker
     @commands.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
     @commands.has_role('Korghallan')
-    @is_in_channel(self.bot, valheim_channel)
+    @is_in_channel(valheim_channel)
     async def check_server(self, ctx):
         await ctx.send(f'{ctx.author} pulls the mighty Gramr from the trunk of the great Barnstokkr, its ring pierces the myst.  If anyone is in Korghalla surely they will need your aid!')
     

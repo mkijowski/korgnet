@@ -53,9 +53,11 @@ async def confirmation(client, ctx, confirm_string='confirm'):
         await ctx.send(f'Confirmation failed, terminating execution')
         return False
 
+
 def git_update():
     command = 'git pull'
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
+
 
 def is_in_channel(client, channel_id):
     async def predicate(ctx):
