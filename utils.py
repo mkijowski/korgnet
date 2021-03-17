@@ -62,6 +62,6 @@ def git_update():
 
 def is_in_channel(channel_id):
     async def predicate(ctx):
-        await log(client, f'Checking if {ctx.channel.id} is correct')
+        await log(ctx, f'Checking if {ctx.channel.id} is correct')
         return ctx.channel and ctx.channel.id == channel_id
     return commands.check(predicate)
