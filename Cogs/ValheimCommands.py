@@ -20,6 +20,7 @@ class ValheimCommands(commands.Cog):
     #discord frontend for valheim server poweron, only asgardians can run 
     @commands.command(name='gjallarhorn', help='Sound the horn, Korgdall will answer! If you fear the world of Korhalla has ended, fear not (but wait 2 minutes).')
     @commands.has_role('Asgardian')
+    @is_in_channel(valheim_channel)
     async def valheim_restart(self, ctx):
         #alert Matt and log command run
         await dm(member=await ctx.guild.fetch_member(218952310053666816), content=f'{ctx.author} sounded the Gjallarhorn!')
@@ -33,6 +34,10 @@ class ValheimCommands(commands.Cog):
 
         await log(self.bot, response)
 
+    @valheim_restart.error
+    async def valheim_restart_error(ctx, error):
+        if isinstance(error, commands.CheckFailure)
+            await ctx.send('This is not the rainbow bridge, you can only sound the `!gjallarhorn` in #korgheim !')
 
     #discord frontend for valheim status checker
     @commands.command(name='gramr', help='Sigurd summons me to battle! Check the status of Korghalla.')
@@ -46,3 +51,8 @@ class ValheimCommands(commands.Cog):
     
         await ctx.send(response)
         await log(self.bot, response) 
+    
+    @check_server.error
+    async def valheim_restart_error(ctx, error):
+        if isinstance(error, commands.CheckFailure)
+            await ctx.send('This is not the rainbow bridge, you can only wield the `!gramr` in #korgheim !')
