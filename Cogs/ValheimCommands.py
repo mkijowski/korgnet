@@ -37,7 +37,7 @@ class ValheimCommands(commands.Cog):
     @valheim_restart.error
     async def gjallarhorn_error(self, ctx, error):
         if isinstance(error, commands.CheckFailure):
-            korgheim = ctx.get_channel(valheim_channel)
+            korgheim = self.get_channel(valheim_channel)
             await ctx.send(f'This is not the rainbow bridge, you can only sound the `!gjallarhorn` in {korgheim.mention}!')
 
 
@@ -57,5 +57,5 @@ class ValheimCommands(commands.Cog):
     @check_server.error
     async def gramr_error(self, ctx, error):
         if isinstance(error, commands.CheckFailure):
-            korgheim = ctx.get_channel(valheim_channel)
+            korgheim = self.get_channel(valheim_channel)
             await ctx.send(f'This is not the rainbow bridge, you can only wield the `!gramr` in {korgheim.mention}!')
