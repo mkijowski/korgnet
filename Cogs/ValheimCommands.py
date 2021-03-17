@@ -36,7 +36,7 @@ class ValheimCommands(commands.Cog):
 
     @valheim_restart.error
     async def valheim_restart_error(ctx, error):
-        if isinstance(error, commands.CheckFailure)
+        if isinstance(error, commands.CheckFailure):
             await ctx.send('This is not the rainbow bridge, you can only sound the `!gjallarhorn` in #korgheim !')
 
     #discord frontend for valheim status checker
@@ -54,5 +54,5 @@ class ValheimCommands(commands.Cog):
     
     @check_server.error
     async def valheim_restart_error(ctx, error):
-        if isinstance(error, commands.CheckFailure)
+        if isinstance(error, commands.CheckFailure):
             await ctx.send('This is not the rainbow bridge, you can only wield the `!gramr` in #korgheim !')
