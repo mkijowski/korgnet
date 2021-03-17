@@ -39,6 +39,10 @@ class ValheimCommands(commands.Cog):
         if isinstance(error, commands.CheckFailure):
             korgheim = self.bot.get_channel(valheim_channel)
             await ctx.send(f'This is not the rainbow bridge, you can only sound the `!gjallarhorn` in {korgheim.mention}!')
+        else:
+            # All other Errors not returned come here. And we can just print the default TraceBack.
+            print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            #traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 
     #discord frontend for valheim status checker
@@ -59,3 +63,7 @@ class ValheimCommands(commands.Cog):
         if isinstance(error, commands.CheckFailure):
             korgheim = self.bot.get_channel(valheim_channel)
             await ctx.send(f'This is not the rainbow bridge, you can only wield the `!gramr` in {korgheim.mention}!')
+        else:
+            # All other Errors not returned come here. And we can just print the default TraceBack.
+            print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+            #traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
