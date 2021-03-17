@@ -59,7 +59,7 @@ def git_update():
     result = subprocess.run(command.split(' '), capture_output=True, text=True)
 
 
-def is_in_channel(client, channel_id):
+def is_in_channel(channel_id):
     async def predicate(ctx):
         await log(client, f'Checking if {ctx.channel.id} is correct')
         return ctx.channel and ctx.channel.id == channel_id
