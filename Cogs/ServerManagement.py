@@ -24,5 +24,5 @@ class ServerManagement(commands.Cog):
     async def restart(self, ctx):
         if await confirmation(self.bot, ctx):
             await ctx.send('Restarting...')
-            git_update
+            git_update()
             os.execv(sys.argv[0], sys.argv)
