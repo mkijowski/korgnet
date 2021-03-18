@@ -1,13 +1,14 @@
 #!/bin/bash
 
-#exec &> >( logger -t gjallarhorn )
+exec &> >( logger -t gjallarhorn )
 
 source /home/ubuntu/.aws.env
 ##################################################
 # /home/ubuntu/.aws.env must contain the following lines:
 #export AWS_ACCESS_KEY_ID=xxxxxx
 #export AWS_SECRET_ACCESS_KEY=xxxxxxxxx
-#export KORGHALLA_ID=i-0c7d6f6653d1fd188
+export KORGHALLA_ID=i-0c7d6f6653d1fd188
+export PWNIE_ID=i-0d33da4eb27c121f0
 ##################################################
 
 
@@ -25,6 +26,7 @@ get_state()
 boot()
 {
 	STATE=$(get_state $KORGHALLA_ID)
+	echo $STATE
 	#if powered off, power it on
 	if [ $STATE == "stopped" ]; then
 		echo "It appears Korghalla has fallen, rebuilding."
