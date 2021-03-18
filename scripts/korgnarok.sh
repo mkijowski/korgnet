@@ -14,7 +14,7 @@ TIMESTAMP=$(date +%F_%R)
 update ()
 {
 	echo "updating"
-	git -C /home/ubuntu/git/korgnet
+	git -C /home/ubuntu/git/korgnet pull
 }
 
 backup ()
