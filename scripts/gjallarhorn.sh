@@ -41,6 +41,7 @@ boot()
 		echo "Korghalla is alive and well warrior."
 	fi
 }
+export -f boot
 
 mlpboot()
 {
@@ -53,6 +54,7 @@ mlpboot()
 		echo "The pwnies are happy."
 	fi
 }
+export -f mlpboot
 
 check_status()
 {
@@ -70,8 +72,8 @@ check_status()
 	else
 		echo "Loki must be playing tricks on us, Korghalla is hidden in the mysts!"
 	fi
-
 }
+export -f check_status
 
 check_mlp_status()
 {
@@ -90,7 +92,7 @@ check_mlp_status()
 	else
 		echo "Get to an exit, something is wrong!"
 	fi
-
 }
+export -f mlp_status
 
 $@
