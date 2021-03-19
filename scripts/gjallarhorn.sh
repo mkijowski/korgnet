@@ -16,7 +16,7 @@ testme()
 	STATE=$(get_state $KORGHALLA_ID)
 	echo $STATE
 }
-
+export -f testme
 
 #check if powered off/on
 get_state() 
@@ -27,7 +27,7 @@ get_state()
 		--o text)
 	echo $STATUS
 }
-
+export -f get_state
 
 boot()
 {
@@ -93,6 +93,4 @@ check_mlp_status()
 
 }
 
-
 $@
-
