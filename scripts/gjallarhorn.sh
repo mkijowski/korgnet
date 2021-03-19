@@ -59,6 +59,7 @@ export -f mlpboot
 check_status()
 {
 	STATE=$(get_state $KORGHALLA_ID)
+	echo $STATE
 	#if powered off, power it on
 	if [ $STATE == "stopped" ]; then
 		echo 'The ring of Gramr falls dead in the air, it appears Korghalla has fallen. Sound the mighty `!gjallarhorn` to rebuild.'
