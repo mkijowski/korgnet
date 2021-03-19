@@ -36,7 +36,7 @@ boot()
 	#if powered off, power it on
 	if [ $STATE == "stopped" ]; then
 		echo "It appears Korghalla has fallen, rebuilding."
-		aws ec2 start-instances --instance-ids $KORGHALLA_ID
+		/usr/local/bin/aws ec2 start-instances --instance-ids $KORGHALLA_ID
 	else
 		echo "Korghalla is alive and well warrior."
 	fi
@@ -48,7 +48,7 @@ mlpboot()
 	#if powered off, power it on
 	if [ $STATE == "stopped" ]; then
 		echo "Waking up the Pwnies."
-		aws ec2 start-instances --instance-ids $PWNIE_ID
+		/usr/local/bin/aws ec2 start-instances --instance-ids $PWNIE_ID
 	else
 		echo "The pwnies are happy."
 	fi
