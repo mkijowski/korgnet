@@ -11,11 +11,17 @@ export KORGHALLA_ID=i-0c7d6f6653d1fd188
 export PWNIE_ID=i-0d33da4eb27c121f0
 ##################################################
 
+testme()
+{
+	STATE=$(get_state $KORGHALLA_ID)
+	echo $STATE
+}
+
 
 #check if powered off/on
 get_state() 
 {
-	STATUS=$(aws ec2 describe-instances \
+	STATUS=$(/usr/local/bin/aws ec2 describe-instances \
 		--instance-ids $1 \
 		--query "Reservations[*].Instances[*].[State.Name]" \
 		--o text)
