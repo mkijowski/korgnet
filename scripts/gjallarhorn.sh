@@ -3,6 +3,7 @@
 #exec &> >( logger -t gjallarhorn )
 
 source /home/ubuntu/.aws.env
+source /home/mkijowski/.aws.env
 ##################################################
 # /home/ubuntu/.aws.env must contain the following lines:
 #export AWS_ACCESS_KEY_ID=xxxxxx
